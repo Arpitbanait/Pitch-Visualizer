@@ -1,6 +1,6 @@
 # Pitch Visualizer
 
-Pitch Visualizer is a FastAPI web app that turns a pasted narrative into a visual storyboard. It splits the text into scenes with NLTK, optionally refines the image prompts with Anthropic, and generates storyboard panels using Hugging Face image generation.
+Pitch Visualizer is a FastAPI web app that turns a pasted narrative into a visual storyboard. It splits the text into scenes with NLTK, optionally refines the image prompts with Anthropic, and generates storyboard panels using Hugging Face image generation with `black-forest-labs/FLUX.1-schnell`.
 
 ## What it does
 
@@ -18,7 +18,7 @@ Pitch Visualizer is a FastAPI web app that turns a pasted narrative into a visua
 - Jinja2
 - NLTK
 - Anthropic API for optional prompt refinement
-- Hugging Face inference API for image generation
+- Hugging Face inference API for image generation using `black-forest-labs/FLUX.1-schnell`
 - HTML + Tailwind CSS
 
 ## Project Structure
@@ -60,6 +60,7 @@ PROMPT_REFINER_MODEL=claude-3-haiku-20240307
 Notes:
 
 - `HUGGINGFACE_API_KEY` is required for image generation.
+- The image model used by default is `black-forest-labs/FLUX.1-schnell`.
 - `ANTHROPIC_API_KEY` is optional and only used for prompt refinement.
 - `PROMPT_REFINER_MODEL` is optional. If omitted, the app falls back to `MODEL_NAME` or a default Claude model.
 - `MODEL_NAME` is no longer needed for scene segmentation because NLTK handles that step.
@@ -102,7 +103,7 @@ This approach keeps the system simple and deterministic at the segmentation stag
 
 - **NLTK for segmentation**: lightweight, easy to run, and satisfies the sentence-tokenization requirement.
 - **FastAPI + Jinja2**: simple server-side rendering with minimal frontend complexity.
-- **Hugging Face for images**: keeps the image generation step external and easy to swap.
+- **Hugging Face for images**: uses `black-forest-labs/FLUX.1-schnell` by default, keeping the image generation step external and easy to swap.
 - **Style dropdown**: allows the user to guide the storyboard look without changing code.
 - **Fallback SVG panels**: if image generation fails, the storyboard still renders cleanly.
 
@@ -117,6 +118,10 @@ Keep secrets out of version control.
 Required for full functionality:
 
 - `HUGGINGFACE_API_KEY`
+
+Default image model:
+
+- `black-forest-labs/FLUX.1-schnell`
 
 Optional:
 
