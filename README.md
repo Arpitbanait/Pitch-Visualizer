@@ -63,7 +63,7 @@ Notes:
 - The image model used by default is `black-forest-labs/FLUX.1-schnell`.
 - `ANTHROPIC_API_KEY` is optional and only used for prompt refinement.
 - `PROMPT_REFINER_MODEL` is optional. If omitted, the app falls back to `MODEL_NAME` or a default Claude model.
-- `MODEL_NAME` is no longer needed for scene segmentation because NLTK handles that step.
+- `MODEL_NAME` is use to refine the prompts for generating the images.
 
 ### 4. Run the app
 
