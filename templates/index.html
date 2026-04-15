@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pitch Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #102017;
+      --pine: #1f5c45;
+      --mint: #cce9dc;
+      --paper: #f5f1e8;
+      --sand: #f0e2c2;
+      --accent: #ff6b35;
+    }
+
+    body {
+      font-family: "Space Grotesk", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(255, 107, 53, 0.2), transparent 36%),
+        radial-gradient(circle at 80% 0%, rgba(31, 92, 69, 0.25), transparent 42%),
+        linear-gradient(135deg, var(--paper), #fefbf6 60%, var(--sand));
+      min-height: 100vh;
+      animation: fadeIn 550ms ease-out;
+    }
+
+    .title-font {
+      font-family: "Playfair Display", serif;
+      letter-spacing: 0.01em;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body class="px-4 py-10 md:py-14">
+  <main class="mx-auto max-w-4xl">
+    <div class="rounded-3xl border border-white/60 bg-white/70 p-8 shadow-2xl backdrop-blur md:p-12">
+      <p class="mb-3 text-sm font-medium uppercase tracking-[0.22em] text-emerald-700">Creative AI storyboarding</p>
+      <h1 class="title-font mb-3 text-4xl font-bold leading-tight text-emerald-950 md:text-5xl">Pitch Visualizer</h1>
+      <p class="mb-8 max-w-2xl text-base text-emerald-900/85 md:text-lg">
+        Paste your story, scene idea, or pitch and get a cinematic storyboard with AI-generated visuals in seconds.
+      </p>
+
+      {% if error %}
+      <div class="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+        {{ error }}
+      </div>
+      {% endif %}
+
+      <form action="/generate" method="post" class="space-y-5">
+        <label for="story-input" class="block text-sm font-semibold uppercase tracking-wider text-emerald-800">
+          Story text
+        </label>
+        <textarea
+          id="story-input"
+          name="text"
+          required
+          placeholder="Paste your story here..."
+          class="h-72 w-full rounded-2xl border border-emerald-900/20 bg-white px-5 py-4 text-[15px] leading-relaxed text-emerald-950 shadow-inner outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-300"
+        >{{ text }}</textarea>
+
+        <div class="space-y-2">
+          <label for="style" class="block text-sm font-semibold uppercase tracking-wider text-emerald-800">
+            Visual style
+          </label>
+          <select
+            id="style"
+            name="style"
+            class="w-full rounded-xl border border-emerald-900/20 bg-white px-4 py-3 text-sm text-emerald-950 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-300"
+          >
+            {% for option in style_options %}
+            <option value="{{ option.value }}" {% if option.value == selected_style %}selected{% endif %}>{{ option.label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4">
+          <button
+            type="submit"
+            class="rounded-xl bg-[var(--pine)] px-6 py-3 text-sm font-semibold uppercase tracking-wider text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-300"
+          >
+            Generate Storyboard
+          </button>
+          <p class="text-sm text-emerald-900/70">NLTK splits scenes, optional Anthropic refines prompts, Hugging Face renders images.</p>
+        </div>
+      </form>
+    </div>
+  </main>
+</body>
+</html>
